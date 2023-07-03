@@ -1,1 +1,56 @@
-# zabbix
+# Zabbix
+## I. Khái niệm
+- Zabbix là một phần mềm giám sát hệ thống mã nguồn mở. Nó được sử dụng để theo dõi và kiểm soát hiệu suất, sự cố và các thông số quan trọng khác của các hệ thống máy tính, mạng và các ứng dụng khác.
+- Zabbix cung cấp các tính năng mạnh mẽ để giám sát và phân tích dữ liệu từ các nguồn khác nhau, bao gồm các máy chủ, máy tính cá nhân, thiết bị mạng, ứng dụng web và các dịch vụ cloud. Nó có khả năng thu thập dữ liệu từ các nguồn khác nhau và hiển thị thông tin trong giao diện người dùng trực quan.
+- Phần mềm Zabbix có thể giám sát các thông số như tải CPU, bộ nhớ, lưu lượng mạng, tình trạng hệ thống và các thành phần khác của hệ thống. Nó cũng có thể gửi cảnh báo khi các thông số vượt quá ngưỡng được xác định trước, giúp quản trị viên phát hiện và giải quyết các sự cố kịp thời.
+- Zabbix được cài đặt dưới dạng máy chủ và có khả năng kết nối với nhiều đại lý (agents) để thu thập dữ liệu từ các hệ thống được giám sát. Nó cũng cung cấp các tính năng bổ sung như báo cáo, đồ thị và khả năng mở rộng để tương thích với môi trường quản lý hệ thống phức tạp.
+- Zabbix là một giải pháp mạnh mẽ và linh hoạt cho việc giám sát hệ thống và mạng, và nó được sử dụng rộng rãi trong các môi trường doanh nghiệp và tổ chức khác nhau trên toàn thế giới.
+
+## II. Cài đặt
+### 1. Cài với apache
+- B1: Thêm zabbix vào kho lưu trữ:
+```
+wget https://repo.zabbix.com/zabbix/6.4/ubuntu/pool/main/z/zabbix-release/zabbix-release_6.4-1+ubuntu20.04_all.deb
+sudo dpkg -i zabbix-release_6.4-1+ubuntu20.04_all.deb
+sudo apt update 
+```
+- B2: Cài đặt Zabbix server, frontend, agent: `sudo apt install zabbix-server-mysql zabbix-frontend-php zabbix-apache-conf zabbix-sql-scripts zabbix-agent`
+- B3: Tạo database zabbix:
+```
+mysql -uroot -p
+create database zabbix character set utf8mb4 collate utf8mb4_bin;
+create user zabbix@localhost identified by 'password';
+grant all privileges on zabbix.* to zabbix@localhost;
+set global log_bin_trust_function_creators = 1;
+quit;
+```
+- B4: Trên máy chủ Zabbix, máy chủ nhập tài khoản zabbix và dữ liệu ban đầu. Nhập mật khẩu mới tạo của zabbix: `zcat /usr/share/zabbix-sql-scripts/mysql/server.sql.gz | mysql --default-character-set=utf8mb4 -uzabbix -p zabbix`
+- B5: Tắt tùy chọn log_bin_trust_function_creators sau khi nhập giản đồ cơ sở dữ liệu:
+```
+mysql -uroot -p
+set global log_bin_trust_function_creators = 0;
+quit;
+```
+- B6: Cấu hình cơ sở dữ liệu cho máy chủ Zabbix:
+```
+sudo nano /etc/zabbix/zabbix_server.conf
+DBPassword=your_zabbix_password
+```
+- B7: Khởi động hệ thống zabbix:
+```
+systemctl restart zabbix-server zabbix-agent apache2
+systemctl enable zabbix-server zabbix-agent apache2
+```
+Url mặc định của Zabbix là `ip/zabbix`
+### 2. Cài với nginx
+Làm như cài với apache
+
+## III. Cấu hình zabbix
+- Hệ điều hành: Zabbix có thể chạy trên nhiều hệ điều hành như Linux, Windows, FreeBSD, và một số hệ điều hành khác. Hãy chọn một hệ điều hành phù hợp với môi trường của bạn.
+- Cấu hình phần cứng: Zabbix có yêu cầu về tài nguyên phần cứng tương đối. Bạn nên đảm bảo rằng máy chủ Zabbix có đủ tài nguyên RAM, CPU và dung lượng đĩa cứng để xử lý dữ liệu giám sát. Số lượng tài nguyên cụ thể phụ thuộc vào quy mô hệ thống của bạn.
+- Cơ sở dữ liệu: Zabbix yêu cầu một cơ sở dữ liệu để lưu trữ thông tin giám sát. Bạn có thể sử dụng MySQL, PostgreSQL, hoặc Oracle để làm cơ sở dữ liệu cho Zabbix.
+- Cài đặt Zabbix Server: Bạn cần cài đặt Zabbix Server trên máy chủ chính của mình. Đây là nơi xử lý và lưu trữ dữ liệu giám sát. Bạn có thể tìm hiểu hướng dẫn cài đặt Zabbix trên trang web chính thức của Zabbix.
+- Cài đặt Zabbix Agent: Zabbix Agent là một phần mềm cần được cài đặt trên các máy chủ mà bạn muốn giám sát. Nó thu thập thông tin từ các máy chủ đó và gửi cho Zabbix Server. Cài đặt Zabbix Agent trên các máy chủ mục tiêu của bạn.
+- Cấu hình giao diện người dùng: Sau khi cài đặt Zabbix Server, bạn có thể truy cập vào giao diện người dùng của Zabbix để cấu hình và tùy chỉnh hệ thống giám sát. Giao diện người dùng cho phép bạn tạo các host, giám sát các thông số, tạo đồ thị và báo cáo, và cấu hình các cảnh báo.
+
+## IV. Zabbix Cluster
