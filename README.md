@@ -38,8 +38,8 @@ DBPassword=your_zabbix_password
 ```
 - B7: Khởi động hệ thống zabbix:
 ```
-systemctl restart zabbix-server zabbix-agent apache2
-systemctl enable zabbix-server zabbix-agent apache2
+sudo systemctl restart zabbix-server zabbix-agent apache2
+sudo systemctl enable zabbix-server zabbix-agent apache2
 ```
 Url mặc định của Zabbix là `ip/zabbix`
 ### 2. Cài với nginx
