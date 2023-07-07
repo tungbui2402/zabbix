@@ -15,7 +15,7 @@ wget https://repo.zabbix.com/zabbix/6.0/ubuntu/pool/main/z/zabbix-release/zabbix
 dpkg -i zabbix-release_6.0-4+ubuntu20.04_all.deb
 apt update 
 ```
-- B2: Cài đặt Zabbix server, frontend, agent: `sudo apt install zabbix-server-mysql zabbix-frontend-php zabbix-apache-conf zabbix-sql-scripts zabbix-agent`
+- B2: Cài đặt Zabbix server, frontend, agent: `apt install zabbix-server-mysql zabbix-frontend-php zabbix-apache-conf zabbix-sql-scripts zabbix-agent`
 - B3: Tạo database zabbix:
 ```
 mysql -uroot -p
@@ -39,8 +39,8 @@ DBPassword=password
 ```
 - B7: Khởi động hệ thống zabbix:
 ```
-sudo systemctl restart zabbix-server zabbix-agent apache2
-sudo systemctl enable zabbix-server zabbix-agent apache2
+systemctl restart zabbix-server zabbix-agent apache2
+systemctl enable zabbix-server zabbix-agent apache2
 ```
 Url mặc định của Zabbix là `ip/zabbix`
 ### 2. Cài với nginx
@@ -52,7 +52,7 @@ dpkg -i zabbix-release_6.0-4+ubuntu20.04_all.deb
 apt update
 ```
 
-- B2: Cài đặt Zabbix server, frontend, agent: `sudo apt install zabbix-server-mysql zabbix-frontend-php zabbix-apache-conf zabbix-sql-scripts zabbix-agent`
+- B2: Cài đặt Zabbix server, frontend, agent: `apt install zabbix-server-mysql zabbix-frontend-php zabbix-apache-conf zabbix-sql-scripts zabbix-agent`
 
 - B3: Tạo database zabbix:
 ```
@@ -88,8 +88,8 @@ server_name your_ip;
 
 - B8: Khởi động hệ thống zabbix:
 ```
-sudo systemctl restart zabbix-server zabbix-agent apache2
-sudo systemctl enable zabbix-server zabbix-agent apache2
+systemctl restart zabbix-server zabbix-agent apache2
+systemctl enable zabbix-server zabbix-agent apache2
 ```
 Url mặc định của Zabbix là `ip`
 ## III. Cấu hình zabbix
@@ -113,7 +113,7 @@ dpkg -i zabbix-release_6.0-4+ubuntu20.04_all.deb
 apt update
 ```
 
-- B2: Cài đặt Zabbix agent: `sudo apt install zabbix-agent`
+- B2: Cài đặt Zabbix agent: `apt install zabbix-agent`
 
 - B3: Chỉnh sửa file cấu hình /etc/zabbix/zabbix_agentd.conf và cung cấp địa chỉ IP hoặc tên miền của Zabbix Server.
 ```
