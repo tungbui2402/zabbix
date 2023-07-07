@@ -129,3 +129,5 @@ systemctl enable zabbix-agent
 ```
 
 - B5: Tại Zabbix Server, vào phần Configuration, vào Hosts, chọn Create host. Nhập Hostname=ubuntu-agent-1, Groups chọn Linux servers, Interfaces chọn add rồi thêm ip của zabbix_server. Sau khi xong thì chọn add để thêm và đợi để máy lên là xong.
+
+![Screenshot (82)](https://github.com/tungbui2402/zabbix/assets/129025623/95f9c8b9-5763-484b-b69f-fddc5374aae5)
