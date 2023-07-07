@@ -8,11 +8,12 @@
 
 ## II. Cài đặt
 ### 1. Cài với apache
+Đăng nhập bằng root: `sudo -s`
 - B1: Thêm zabbix vào kho lưu trữ:
 ```
-wget https://repo.zabbix.com/zabbix/6.4/ubuntu/pool/main/z/zabbix-release/zabbix-release_6.4-1+ubuntu20.04_all.deb
-sudo dpkg -i zabbix-release_6.4-1+ubuntu20.04_all.deb
-sudo apt update 
+wget https://repo.zabbix.com/zabbix/6.0/ubuntu/pool/main/z/zabbix-release/zabbix-release_6.0-4+ubuntu20.04_all.deb
+dpkg -i zabbix-release_6.0-4+ubuntu20.04_all.deb
+apt update 
 ```
 - B2: Cài đặt Zabbix server, frontend, agent: `sudo apt install zabbix-server-mysql zabbix-frontend-php zabbix-apache-conf zabbix-sql-scripts zabbix-agent`
 - B3: Tạo database zabbix:
@@ -33,8 +34,8 @@ quit;
 ```
 - B6: Cấu hình cơ sở dữ liệu cho máy chủ Zabbix:
 ```
-sudo nano /etc/zabbix/zabbix_server.conf
-DBPassword=your_zabbix_password
+nano /etc/zabbix/zabbix_server.conf
+DBPassword=password
 ```
 - B7: Khởi động hệ thống zabbix:
 ```
@@ -43,8 +44,54 @@ sudo systemctl enable zabbix-server zabbix-agent apache2
 ```
 Url mặc định của Zabbix là `ip/zabbix`
 ### 2. Cài với nginx
-Làm như cài với apache
+Đăng nhập bằng root: `sudo -s`
+- B1: Thêm zabbix vào kho lưu trữ:
+```
+wget https://repo.zabbix.com/zabbix/6.0/ubuntu/pool/main/z/zabbix-release/zabbix-release_6.0-4+ubuntu20.04_all.deb
+dpkg -i zabbix-release_6.0-4+ubuntu20.04_all.deb
+apt update
+```
 
+- B2: Cài đặt Zabbix server, frontend, agent: `sudo apt install zabbix-server-mysql zabbix-frontend-php zabbix-apache-conf zabbix-sql-scripts zabbix-agent`
+
+- B3: Tạo database zabbix:
+```
+mysql -uroot -p
+create database zabbix character set utf8mb4 collate utf8mb4_bin;
+create user zabbix@localhost identified by 'password';
+grant all privileges on zabbix.* to zabbix@localhost;
+set global log_bin_trust_function_creators = 1;
+quit;
+```
+
+- B4: Trên máy chủ Zabbix, máy chủ nhập tài khoản zabbix và dữ liệu ban đầu. Nhập mật khẩu mới tạo của zabbix: `zcat /usr/share/zabbix-sql-scripts/mysql/server.sql.gz | mysql --default-character-set=utf8mb4 -uzabbix -p zabbix`
+
+- B5: Tắt tùy chọn log_bin_trust_function_creators sau khi nhập giản đồ cơ sở dữ liệu:
+```
+mysql -uroot -p
+set global log_bin_trust_function_creators = 0;
+quit;
+```
+
+- B6: Cấu hình cơ sở dữ liệu cho máy chủ Zabbix:
+```
+nano /etc/zabbix/zabbix_server.conf
+DBPassword=password
+```
+
+- B7: Cấu hình nginx cho máy chủ Zabbix:
+```
+nano /etc/zabbix/nginx.conf
+listen 80;
+server_name your_ip;
+```
+
+- B8: Khởi động hệ thống zabbix:
+```
+sudo systemctl restart zabbix-server zabbix-agent apache2
+sudo systemctl enable zabbix-server zabbix-agent apache2
+```
+Url mặc định của Zabbix là `ip`
 ## III. Cấu hình zabbix
 - Hệ điều hành: Zabbix có thể chạy trên nhiều hệ điều hành như Linux, Windows, FreeBSD, và một số hệ điều hành khác. Hãy chọn một hệ điều hành phù hợp với môi trường của bạn.
 - Cấu hình phần cứng: Zabbix có yêu cầu về tài nguyên phần cứng tương đối. Bạn nên đảm bảo rằng máy chủ Zabbix có đủ tài nguyên RAM, CPU và dung lượng đĩa cứng để xử lý dữ liệu giám sát. Số lượng tài nguyên cụ thể phụ thuộc vào quy mô hệ thống của bạn.
@@ -53,4 +100,5 @@ Làm như cài với apache
 - Cài đặt Zabbix Agent: Zabbix Agent là một phần mềm cần được cài đặt trên các máy chủ mà bạn muốn giám sát. Nó thu thập thông tin từ các máy chủ đó và gửi cho Zabbix Server. Cài đặt Zabbix Agent trên các máy chủ mục tiêu của bạn.
 - Cấu hình giao diện người dùng: Sau khi cài đặt Zabbix Server, bạn có thể truy cập vào giao diện người dùng của Zabbix để cấu hình và tùy chỉnh hệ thống giám sát. Giao diện người dùng cho phép bạn tạo các host, giám sát các thông số, tạo đồ thị và báo cáo, và cấu hình các cảnh báo.
 
-## IV. Zabbix Cluster
+## IV. Zabbix Monitor
+
