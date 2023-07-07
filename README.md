@@ -101,4 +101,31 @@ Url mặc định của Zabbix là `ip`
 - Cấu hình giao diện người dùng: Sau khi cài đặt Zabbix Server, bạn có thể truy cập vào giao diện người dùng của Zabbix để cấu hình và tùy chỉnh hệ thống giám sát. Giao diện người dùng cho phép bạn tạo các host, giám sát các thông số, tạo đồ thị và báo cáo, và cấu hình các cảnh báo.
 
 ## IV. Zabbix Monitor
+Chuẩn bị 3 máy với 1 máy là zabbix server và 2 máy là zabbix agent
+### B1: Cài đặt
+Với máy zabbix server thì cài như trên
 
+Với máy zabbix client thì:
+- B1: Thêm zabbix vào kho lưu trữ:
+```
+wget https://repo.zabbix.com/zabbix/6.0/ubuntu/pool/main/z/zabbix-release/zabbix-release_6.0-4+ubuntu20.04_all.deb
+dpkg -i zabbix-release_6.0-4+ubuntu20.04_all.deb
+apt update
+```
+
+- B2: Cài đặt Zabbix agent: `sudo apt install zabbix-agent`
+
+- B3: Chỉnh sửa file cấu hình /etc/zabbix/zabbix_agentd.conf và cung cấp địa chỉ IP hoặc tên miền của Zabbix Server.
+```
+Server=ip_zabbix_server
+ServerActive=ip_zabbix_server
+Hostname=ubuntu-agent-1
+```
+
+- B4: Khởi động lại Zabbix Agent để áp dụng các thay đổi:
+```
+systemctl restart zabbix-agent
+systemctl enable zabbix-agent
+```
+
+- B5: Tại Zabbix Server, vào phần Configuration, vào Hosts, chọn Create host. Nhập Hostname=ubuntu-agent-1, Groups chọn Linux servers, Interfaces chọn add rồi thêm ip của zabbix_server. Sau khi xong thì chọn add để thêm và đợi để máy lên là xong.
