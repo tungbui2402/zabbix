@@ -172,3 +172,9 @@ Sau khi xong thì chọn Update để lưu thay đổi là xong.
 
 ### Test:
 Tắt 1 host và refresh web lại nhiều lần cho đến khi hiện problems, sau đó zabbix sẽ gửi thông báo về telegram
+
+![Screenshot (43)](https://github.com/tungbui2402/zabbix/assets/129025623/affd5576-6c74-49fe-8261-1c74e9cd48e1)
+Zabbix đã gửi thông báo về telegram.
+
+![Screenshot (42)](https://github.com/tungbui2402/zabbix/assets/129025623/c515674e-612b-4315-bfe9-0c0ece641013)
+Thông báo về telegram
