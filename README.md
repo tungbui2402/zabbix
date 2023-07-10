@@ -170,3 +170,5 @@ Lưu ý: Mỗi phần trên đều chọn Telegram ở phần Send only to, tr�
 
 Sau khi xong thì chọn Update để lưu thay đổi là xong.
 
+### Test:
+Tắt 1 host và refresh web lại nhiều lần cho đến khi hiện problems, sau đó zabbix sẽ gửi thông báo về telegram
