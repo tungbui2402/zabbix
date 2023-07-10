@@ -132,8 +132,17 @@ systemctl enable zabbix-agent
 
 ![Screenshot (82)](https://github.com/tungbui2402/zabbix/assets/129025623/95f9c8b9-5763-484b-b69f-fddc5374aae5)
 
-## V. Zabbix alert
 
+## V. Zabbix alert
 Telegram là một kênh nhận thông báo vô cùng tốt, nhanh chóng và hỗ trợ trên nhiều nền tảng bởi việc tạo và kết nối riêng qua API/Token..vv
 
-â
+
+
+
+Đầu tiên chúng ta cần đăng nhập zabbix bằng tài khoản admin
+
+```
+user: Admin
+Password: zabbix
+```
+
