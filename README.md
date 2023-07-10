@@ -146,3 +146,27 @@ user: Admin
 Password: zabbix
 ```
 
+Tiếp đến  vào Administration -> Media types -> Telegram và nhập token và group id. Để lấy token và ip chat của nhóm telegram thì làm theo video sau: https://www.youtube.com/watch?v=JNwEJ5HvLgM&pp=ygUbdG9rZW4gdsOgIGlwIG5ow7NtIHRlbGVncmFt
+
+Tiếp đến vào Configuration -> Action -> Trigger actions, chọn Report problems to Zabbix administrators, chọn Operations, chọn Add và add mỗi phần như dưới: 
+
+Operations:
+```
+1	Send message to user groups: Zabbix administrators via all media
+1	Send message to users: Admin (Zabbix Administrator) via Telegram
+```
+Recovery operations
+```
+Notify all involved	
+Send message to users: Admin (Zabbix Administrator) via Telegram
+Send message to user groups: Zabbix administrators via Telegram
+```
+Update operations
+```
+Send message to user groups: Zabbix administrators via Telegram
+Send message to users: Admin (Zabbix Administrator) via Telegram
+```
+Lưu ý: Mỗi phần trên đều chọn Telegram ở phần Send only to, trừ Notify all involved.
+
+Sau khi xong thì chọn Update để lưu thay đổi là xong.
+
