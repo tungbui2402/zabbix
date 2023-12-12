@@ -170,6 +170,64 @@ Lưu ý: Mỗi phần trên đều chọn Telegram ở phần Send only to, tr�
 
 Sau khi xong thì chọn Update để lưu thay đổi là xong.
 
+## VI. Zabbix Proxy
+Cài đặt proxy Zabbix:
+```
+sudo apt install zabbix-proxy-mysql zabbix-sql-scripts
+```
+Tạo cơ sở dữ liệu ban đầu
+```
+mysql -uroot -p
+mysql> create database zabbix_proxy character set utf8mb4 collate utf8mb4_bin;
+mysql> grant all privileges on zabbix_proxy.* to zabbix@localhost;
+mysql> set global log_bin_trust_function_creators = 1;
+mysql> quit;
+```
+Trên máy chủ Zabbix, nhập lược đồ và dữ liệu ban đầu. Nhập mật khẩu của zabbix@localhost
+```
+cat /usr/share/zabbix-sql-scripts/mysql/proxy.sql | mysql --default-character-set=utf8mb4 -uzabbix -p zabbix_proxy
+```
+
+Tắt tùy chọn log_bin_trust_function_creators sau khi nhập lược đồ cơ sở dữ liệu.
+```
+# mysql -uroot -p
+mysql> set global log_bin_trust_function_creators = 0;
+mysql> quit;
+```
+
+Định cấu hình cơ sở dữ liệu cho proxy Zabbix
+```
+sudo nano /etc/zabbix/zabbix_proxy.conf
+DBPassword=password
+```
+
+Bắt đầu quá trình proxy Zabbix và khởi động nó khi khởi động hệ thống.
+```
+sudo systemctl restart zabbix-proxy
+sudo systemctl enable zabbix-proxy
+```
+Thêm proxy vào server:
+```
+Zabbix UI ⇾ Administration ⇾ Proxies
+Proxy name	Zabbix	
+Proxy mode	Active	
+```
+### Thêm proxy vào agent
+Vào `Zabbix ⇾ Configuration ⇾ Hosts`
+
+Tại host chọn Configuration
+
+Tại Templates chọn Zabbix proxy health	
+
+Chọn xong nhấn Update để cập nhật
+
+
+
+
+
+
+
+
 ### Test:
 Tắt 1 host và refresh web lại nhiều lần cho đến khi hiện problems, sau đó zabbix sẽ gửi thông báo về telegram
 
