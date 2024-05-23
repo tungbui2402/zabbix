@@ -52,7 +52,7 @@ dpkg -i zabbix-release_6.0-4+ubuntu20.04_all.deb
 apt update
 ```
 
-- B2: Cài đặt Zabbix server, frontend, agent: `apt install zabbix-server-mysql zabbix-frontend-php zabbix-apache-conf zabbix-sql-scripts zabbix-agent`
+- B2: Cài đặt Zabbix server, frontend, agent: `apt install zabbix-server-mysql zabbix-frontend-php zabbix-nginx-conf zabbix-sql-scripts zabbix-agent`
 
 - B3: Tạo database zabbix:
 ```
